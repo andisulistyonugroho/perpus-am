@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "none",
+  layout: false,
 });
 const tab = ref(1);
 const passType = ref(true);
