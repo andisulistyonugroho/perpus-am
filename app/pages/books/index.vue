@@ -85,8 +85,8 @@ await getBooks();
             </template>
             <v-data-table-virtual v-else :headers="headers" :items="books">
               <template #[`item.title`]="{ item }">
-                <div>{{ item.title }}</div>
-                <v-chip color="green-accent-4">
+                {{ item.title }}
+                <v-chip size="small" :color="bookStateColor(item.state)">
                   {{ bookState(item.state) }}</v-chip
                 >
               </template>
@@ -98,6 +98,20 @@ await getBooks();
                   <v-list density="compact">
                     <v-list-item density="compact" @click="editBook(item)">
                       <v-list-item-title>Edit</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                      v-if="item.state === 1"
+                      density="compact"
+                      @click="editBook(item)"
+                    >
+                      <v-list-item-title>Pinjam</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                      v-if="item.state === 2"
+                      density="compact"
+                      @click="editBook(item)"
+                    >
+                      <v-list-item-title>Kembali</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>

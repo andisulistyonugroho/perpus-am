@@ -21,3 +21,18 @@ export function bookState(val: number | undefined) {
   }
   return text;
 }
+
+export function bookStateColor(val: number | undefined) {
+  let text = "";
+  switch (val) {
+    case 1:
+      text = "green-accent-4";
+      break;
+    case 2:
+      text = "red-accent-4";
+      break;
+    default:
+      text = "";
+  }
+  return text;
+}
