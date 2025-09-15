@@ -1,18 +1,26 @@
 <script setup lang="ts">
 const { callHook } = useNuxtApp();
+const { getBooks } = useBookStore();
+const { books } = storeToRefs(useBookStore());
+
 const tab = ref(1);
 const headers = ref([
   { title: "Judul", key: "title" },
-  { title: "Penulis", key: "author" },
-  { title: "Genre", key: "genre" },
-  { title: "Dipinjam", key: "borrowed" },
+  { title: "Penulis", key: "author.name" },
+  { title: "Genre", key: "genre.title" },
+  { title: "Hal", key: "num_of_page" },
+  { title: "Jlh Pinjam", key: "borrowed" },
   { title: "", key: "action", sortable: false },
 ]);
 const addBookDialog = ref(false);
+const editedData = ref<Book | undefined>();
 
-const closeIt = () => {
-  addBookDialog.value = false;
+const editBook = (data: Book) => {
+  editedData.value = data;
+  addBookDialog.value = true;
 };
+
+await getBooks();
 </script>
 <template>
   <div>
@@ -62,22 +70,46 @@ const closeIt = () => {
             </v-card-text>
           </v-card>
           <v-card class="mt-4">
-            <v-data-table-virtual :headers="headers" />
-            <div
-              v-for="row in 20"
-              :key="row"
-              class="mt-3 px-5 py-2 border-b-thin"
-            >
-              <div>Negeri Para Bedebah</div>
-              <div class="text-body-2 text-grey-darken-1">
-                Tere Liye, 2020 &bull; 200 halaman &bull; Fiksi ilmiah &bull;
-                dipinjam 100 kali
+            <template v-if="$vuetify.display.mobile">
+              <div
+                v-for="row in books"
+                :key="row.id"
+                class="mt-3 px-5 py-2 border-b-thin"
+              >
+                <div>{{ row.title }}</div>
+                <div class="text-body-2 text-grey-darken-1">
+                  {{ row.author.name }} &bull; {{ row.num_of_page }} halaman
+                  &bull; {{ row.genre.title }} &bull; dipinjam ... kali
+                </div>
               </div>
-            </div>
+            </template>
+            <v-data-table-virtual v-else :headers="headers" :items="books">
+              <template #[`item.title`]="{ item }">
+                <div>{{ item.title }}</div>
+                <v-chip color="green-accent-4">
+                  {{ bookState(item.state) }}</v-chip
+                >
+              </template>
+              <template #[`item.action`]="{ item }">
+                <v-menu>
+                  <template #activator="{ props }">
+                    <v-icon icon="i-mdi-dots-horizontal" v-bind="props" />
+                  </template>
+                  <v-list density="compact">
+                    <v-list-item density="compact" @click="editBook(item)">
+                      <v-list-item-title>Edit</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </template>
+            </v-data-table-virtual>
           </v-card>
         </v-col>
       </v-row>
     </v-container>
-    <LazyBooksAddBook v-model:dialog="addBookDialog" @closeit="closeIt()" />
+    <LazyBooksAddBook
+      v-model:dialog="addBookDialog"
+      v-model:edited="editedData"
+    />
   </div>
 </template>

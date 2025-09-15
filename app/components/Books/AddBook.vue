@@ -4,13 +4,13 @@ const { getAuthors } = useAuthorStore();
 const { authors } = storeToRefs(useAuthorStore());
 const { getGenres } = useGenreStore();
 const { genres } = storeToRefs(useGenreStore());
-const { addBook } = useBookStore();
+const { addBook, getBooks, editBook } = useBookStore();
 
 const dialog = defineModel<boolean>("dialog");
 const checkbox = ref(false);
 const genreDialog = ref(false);
 const authorDialog = ref(false);
-const form = ref(null);
+const form = ref();
 const loading = ref(false);
 const payload = ref<AddBook>({
   title: "",
@@ -18,26 +18,75 @@ const payload = ref<AddBook>({
   genre_id: 0,
   num_of_page: 0,
 });
+const edited = defineModel<Book | undefined>("edited");
 
-const doAdd = $debounce(async () => {
+watch(edited, (newV, _) => {
+  if (newV) {
+    payload.value = {
+      title: newV.title,
+      author_id: newV.author_id,
+      genre_id: newV.genre_id,
+      num_of_page: newV.num_of_page,
+    };
+  }
+});
+
+const doSave = $debounce(
+  async () => {
+    const validate = await form.value.validate();
+    if (!validate.valid) return;
+
+    if (!edited.value) {
+      await doAdd();
+    } else {
+      await doEdit();
+    }
+  },
+  1000,
+  { leading: true, trailing: false },
+);
+
+const doAdd = async () => {
   try {
     loading.value = true;
+
     await addBook(payload.value);
+    await getBooks();
+
+    form.value.reset();
     loading.value = false;
     dialog.value = false;
   } catch (error) {
     loading.value = false;
     alert(error);
   }
-});
+};
+
+const doEdit = async () => {
+  try {
+    loading.value = true;
+    if (!edited.value) return;
+
+    const editPayload: UpdateBook = { ...payload.value, id: edited.value.id };
+    await editBook(editPayload);
+    await getBooks();
+
+    form.value.reset();
+    loading.value = false;
+    dialog.value = false;
+  } catch (error) {
+    loading.value = false;
+    alert(error);
+  }
+};
 
 await getAuthors();
 await getGenres();
 </script>
 <template>
-  <v-dialog v-model="dialog" width="600">
+  <v-dialog v-model="dialog" width="600" persistent>
     <v-card>
-      <v-card-title>Tambah Buku</v-card-title>
+      <v-card-title>{{ edited ? "Edit" : "Tambah" }} Buku</v-card-title>
       <v-card-text class="px-3">
         <v-form ref="form" class="pa-0">
           <v-container fluid class="pa-0 ma-0">
@@ -121,7 +170,11 @@ await getGenres();
           color="error"
           class="text-none"
           :loading="loading"
-          @click="dialog = false"
+          @click="
+            form.reset();
+            edited = undefined;
+            dialog = false;
+          "
           >Tutup</v-btn
         >
         <v-btn
@@ -130,7 +183,7 @@ await getGenres();
           color="primary"
           class="text-none"
           :loading="loading"
-          @click="doAdd()"
+          @click="doSave()"
           >Simpan</v-btn
         >
       </v-card-actions>

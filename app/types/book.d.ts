@@ -11,9 +11,13 @@ interface Book {
   author_id: number;
   genre_id: number;
   num_of_page: number;
+  state: number;
+  borrowed: number;
   created: string;
   is_active: boolean;
   modified: string;
+  author: Author;
+  genre: Genre;
 }
 
 interface UpdateBook {
@@ -21,7 +25,7 @@ interface UpdateBook {
   title: string;
   author_id: number;
   genre_id: number;
-  modified: string;
+  num_of_page: number;
 }
 
 interface ChangeBookStatus {

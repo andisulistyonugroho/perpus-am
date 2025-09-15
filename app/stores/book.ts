@@ -1,5 +1,5 @@
 export const useBookStore = defineStore("book", () => {
-  const { $api } = useNuxtApp();
+  const { $api, $dayjs } = useNuxtApp();
   const books = ref<Book[]>([]);
 
   const getBooks = async () => {
@@ -10,6 +10,7 @@ export const useBookStore = defineStore("book", () => {
             where: {
               is_active: true,
             },
+            include: ["author", "genre"],
           },
         },
       });
@@ -34,9 +35,25 @@ export const useBookStore = defineStore("book", () => {
     }
   };
 
+  const editBook = async (payload: UpdateBook) => {
+    try {
+      await $api.patch(`/books/${payload.id}`, {
+        title: payload.title,
+        author_id: payload.author_id,
+        genre_id: payload.genre_id,
+        num_of_page: payload.num_of_page,
+        modified: $dayjs().subtract(7, "hour").format("YYYY-MM-DD HH:mm:ss"),
+      });
+      return Promise.resolve();
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
   return {
     getBooks,
     addBook,
+    editBook,
     books,
   };
 });
