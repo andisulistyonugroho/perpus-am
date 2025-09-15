@@ -1,11 +1,17 @@
 <script setup lang="ts">
+const { getAuthors } = useAuthorStore();
+const { authors } = storeToRefs(useAuthorStore());
+const { getGenres } = useGenreStore();
+const { genres } = storeToRefs(useGenreStore());
+
 const dialog = defineModel<boolean>("dialog");
 const checkbox = ref(false);
-const genres = ref<string[]>([]);
-const authors = ref<string[]>([]);
 const genreDialog = ref(false);
 const authorDialog = ref(false);
 const form = ref(null);
+
+await getAuthors();
+await getGenres();
 </script>
 <template>
   <v-dialog v-model="dialog" width="600">
@@ -25,6 +31,8 @@ const form = ref(null);
                 <v-select
                   label="Penulis*"
                   :items="authors"
+                  item-title="name"
+                  item-value="id"
                   :rules="[(v) => !!v || 'Harus diisi']"
                   class="mr-1"
                 >
@@ -97,11 +105,11 @@ const form = ref(null);
         >
       </v-card-actions>
     </v-card>
-    <v-dialog v-model="genreDialog" width="500">
-      <LazyBooksAddGenre @closeit="genreDialog = false" />
-    </v-dialog>
     <v-dialog v-model="authorDialog" width="500">
       <LazyBooksAddAuthor @closeit="authorDialog = false" />
+    </v-dialog>
+    <v-dialog v-model="genreDialog" width="500">
+      <LazyBooksAddGenre @closeit="genreDialog = false" />
     </v-dialog>
   </v-dialog>
 </template>

@@ -1,6 +1,17 @@
+<script setup lang="ts">
+const { hook } = useNuxtApp();
+const drawer = ref(true);
+
+hook("drawer:toggle", () => {
+  drawer.value = !drawer.value;
+});
+</script>
 <template>
   <v-app>
-    <v-navigation-drawer>
+    <v-navigation-drawer
+      v-model="drawer"
+      :location="$vuetify.display.mobile ? 'bottom' : undefined"
+    >
       <div class="pa-5 border-b-thin">
         <v-img
           src="https://nuxt.com/assets/design-kit/logo-green-black.svg"
@@ -23,7 +34,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-main class="bg-grey-lighten-5">
+    <v-main class="bg-grey-lighten-3">
       <slot />
     </v-main>
   </v-app>

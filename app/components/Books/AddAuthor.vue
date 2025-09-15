@@ -1,7 +1,31 @@
 <script setup lang="ts">
+const { $debounce } = useNuxtApp();
+const { createAuthor, getAuthors } = useAuthorStore();
 const emit = defineEmits(["closeit"]);
 const checkbox = ref(false);
-const form = ref(null);
+const form = ref();
+const name = ref("");
+const loading = ref(false);
+
+const doAdd = $debounce(
+  async () => {
+    try {
+      loading.value = true;
+      const validate = await form.value.validate();
+      if (!validate.valid) return;
+
+      await createAuthor({ name: name.value });
+      await getAuthors();
+      loading.value = false;
+      emit("closeit");
+    } catch (error) {
+      loading.value = false;
+      alert(error);
+    }
+  },
+  1000,
+  { leading: true, trailing: false },
+);
 </script>
 
 <template>
@@ -9,6 +33,7 @@ const form = ref(null);
     <v-card-title>Tambah Penulis</v-card-title>
     <v-form ref="form" class="px-2">
       <v-text-field
+        v-model="name"
         label="Nama Penulis*"
         :rules="[(v) => !!v || 'Harus diisi']"
         clearable
@@ -25,6 +50,7 @@ const form = ref(null);
         prepend-icon="i-mdi-close"
         color="error"
         class="text-none"
+        :loading="loading"
         @click="emit('closeit')"
       >
         Tutup
@@ -34,6 +60,8 @@ const form = ref(null);
         prepend-icon="i-mdi-content-save"
         color="primary"
         class="text-none"
+        :loading="loading"
+        @click="doAdd()"
       >
         Simpan
       </v-btn>

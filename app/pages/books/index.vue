@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { callHook } = useNuxtApp();
 const tab = ref(1);
 const headers = ref([
   { title: "Judul", key: "title" },
@@ -16,6 +17,7 @@ const closeIt = () => {
 <template>
   <div>
     <v-app-bar flat class="border-b-thin">
+      <v-btn icon="i-mdi-menu" @click="callHook('drawer:toggle')" />
       <v-app-bar-title>Buku</v-app-bar-title>
       <v-btn
         id="menu-activator"
