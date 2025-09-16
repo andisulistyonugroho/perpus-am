@@ -32,6 +32,12 @@ hook("drawer:toggle", () => {
           </template>
           <v-list-item-title>Buku</v-list-item-title>
         </v-list-item>
+        <v-list-item to="/members">
+          <template #prepend>
+            <v-icon icon="i-mdi-account-group" />
+          </template>
+          <v-list-item-title>Anggota</v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main class="bg-grey-lighten-3">

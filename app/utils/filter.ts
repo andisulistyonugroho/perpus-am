@@ -36,3 +36,18 @@ export function bookStateColor(val: number | undefined) {
   }
   return text;
 }
+
+export function genderLabel(val: string) {
+  let text = "";
+  switch (val) {
+    case "m":
+      text = "Laki-laki";
+      break;
+    case "f":
+      text = "Perempuan";
+      break;
+    default:
+      text = "";
+  }
+  return text;
+}

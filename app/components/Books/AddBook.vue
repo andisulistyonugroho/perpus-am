@@ -72,6 +72,7 @@ const doEdit = async () => {
     await getBooks();
 
     form.value.reset();
+    edited.value = undefined;
     loading.value = false;
     dialog.value = false;
   } catch (error) {
