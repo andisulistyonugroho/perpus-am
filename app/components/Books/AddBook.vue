@@ -17,6 +17,7 @@ const payload = ref<AddBook>({
   author_id: 0,
   genre_id: 0,
   num_of_page: 0,
+  year: 2025,
 });
 const edited = defineModel<Book | undefined>("edited");
 
@@ -27,6 +28,7 @@ watch(edited, (newV, _) => {
       author_id: newV.author_id,
       genre_id: newV.genre_id,
       num_of_page: newV.num_of_page,
+      year: newV.year,
     };
   }
 });
@@ -88,6 +90,7 @@ await getGenres();
   <v-dialog v-model="dialog" width="600" persistent>
     <v-card>
       <v-card-title>{{ edited ? "Edit" : "Tambah" }} Buku</v-card-title>
+      <v-divider class="mt-2" />
       <v-card-text class="px-3">
         <v-form ref="form" class="pa-0">
           <v-container fluid class="pa-0 ma-0">
@@ -99,7 +102,7 @@ await getGenres();
                   :rules="[(v) => !!v || 'Harus diisi']"
                 />
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" md="6">
                 <v-select
                   v-model="payload.author_id"
                   label="Penulis*"
@@ -144,6 +147,14 @@ await getGenres();
                     >
                   </template>
                 </v-select>
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="payload.year"
+                  label="Tahun Terbit*"
+                  type="number"
+                  :rules="[(v) => !!v || 'Harus diisi']"
+                />
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field

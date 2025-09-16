@@ -79,6 +79,7 @@ const doUpdate = async () => {
   <v-dialog v-model="dialog" width="600" persistent>
     <v-card>
       <v-card-title>{{ edited ? "Edit" : "Tambah" }} Anggota</v-card-title>
+      <v-divider class="mt-2" />
       <v-card-text class="px-3">
         <v-form ref="form" class="pa-0">
           <v-text-field

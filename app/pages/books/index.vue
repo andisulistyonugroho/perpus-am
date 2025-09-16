@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { callHook } = useNuxtApp();
-const { getBooks } = useBookStore();
+const { getBooks, getBooksByState } = useBookStore();
 const { books } = storeToRefs(useBookStore());
 
 const tab = ref(1);
@@ -8,12 +8,24 @@ const headers = ref([
   { title: "Judul", key: "title" },
   { title: "Penulis", key: "author.name" },
   { title: "Genre", key: "genre.title" },
+  { title: "Tahun", key: "year" },
   { title: "Hal", key: "num_of_page" },
   { title: "Jlh Pinjam", key: "borrowed" },
   { title: "", key: "action", sortable: false },
 ]);
 const addBookDialog = ref(false);
 const editedData = ref<Book | undefined>();
+const search = ref("");
+
+watch(tab, async (newV, _) => {
+  if (newV === 1) {
+    await getBooks();
+  } else if (newV === 2) {
+    await getBooksByState(1);
+  } else if (newV === 3) {
+    await getBooksByState(2);
+  }
+});
 
 const editBook = (data: Book) => {
   editedData.value = data;
@@ -52,19 +64,21 @@ await getBooks();
         <v-col cols="12">
           <v-card>
             <v-tabs v-model="tab" slider-color="blue">
-              <v-tab value="1" class="text-none">Semua</v-tab>
-              <v-tab value="2" class="text-none">Tersedia</v-tab>
-              <v-tab value="3" class="text-none">Dipinjam</v-tab>
+              <v-tab :value="1" class="text-none">Semua</v-tab>
+              <v-tab :value="2" class="text-none">Tersedia</v-tab>
+              <v-tab :value="3" class="text-none">Dipinjam</v-tab>
             </v-tabs>
             <v-card-text>
               <div>
                 <v-text-field
+                  v-model="search"
                   label="Search"
                   variant="outlined"
                   density="compact"
                   single-line
                   hide-details
                   prepend-inner-icon="i-mdi-magnify"
+                  clearable
                 />
               </div>
             </v-card-text>
@@ -83,7 +97,12 @@ await getBooks();
                 </div>
               </div>
             </template>
-            <v-data-table-virtual v-else :headers="headers" :items="books">
+            <v-data-table-virtual
+              v-else
+              :headers="headers"
+              :items="books"
+              :search="search"
+            >
               <template #[`item.title`]="{ item }">
                 {{ item.title }}
                 <v-chip size="small" :color="bookStateColor(item.state)">

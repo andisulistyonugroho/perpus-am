@@ -35,6 +35,7 @@ const doAdd = $debounce(
 <template>
   <v-card>
     <v-card-title>Tambah Genre</v-card-title>
+    <v-divider class="my-2" />
     <v-form ref="form" class="px-2">
       <v-text-field
         v-model="title"
