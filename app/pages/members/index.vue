@@ -4,7 +4,7 @@ const { getMember } = useMemberStore();
 const { members } = storeToRefs(useMemberStore());
 const headers = [
   { title: "Nama", key: "fullname" },
-  { title: "Kode Anggota", key: "user_id" },
+  { title: "Kode Anggota", key: "userId" },
   { title: "Gender", key: "gender" },
   { title: "Usia (thn)", key: "age" },
   { title: "Jlh Pinjam", key: "borrowing" },

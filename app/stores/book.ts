@@ -11,6 +11,7 @@ export const useBookStore = defineStore("book", () => {
               is_active: true,
             },
             include: ["author", "genre"],
+            order: "title",
           },
         },
       });
@@ -62,6 +63,7 @@ export const useBookStore = defineStore("book", () => {
               state: state,
             },
             include: ["author", "genre"],
+            order: "title",
           },
         },
       });

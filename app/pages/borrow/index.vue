@@ -30,10 +30,10 @@ const transactionDialog = ref(false);
       <v-menu activator="#menu-activator">
         <v-list density="compact">
           <v-list-item density="compact" @click="transactionDialog = true">
-            <v-list-item-title>Tambah</v-list-item-title>
+            <v-list-item-title>Pinjamkan</v-list-item-title>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title>Pinjam</v-list-item-title>
+            <v-list-item-title>Kembalikan</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -68,5 +68,6 @@ const transactionDialog = ref(false);
         </v-col>
       </v-row>
     </v-container>
+    <LazyBorrowsAddBorrow v-model:dialog="transactionDialog" />
   </div>
 </template>

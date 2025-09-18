@@ -6,7 +6,7 @@ interface AddMember {
 
 interface Member {
   id: number;
-  user_id: number;
+  userId: number;
   fullname: string;
   gender: string;
   age: number;

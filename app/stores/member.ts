@@ -13,7 +13,7 @@ export const useMemberStore = defineStore("member", () => {
       });
 
       await $api.post("/profiles", {
-        user_id: data.id,
+        userId: data.id,
         fullname: payload.fullname,
         gender: payload.gender,
         age: payload.age,
