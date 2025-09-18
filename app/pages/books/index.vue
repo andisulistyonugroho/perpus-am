@@ -1,4 +1,9 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: "default",
+  middleware: ["auth"],
+});
+
 const { callHook } = useNuxtApp();
 const { getBooks, getBooksByState } = useBookStore();
 const { books } = storeToRefs(useBookStore());

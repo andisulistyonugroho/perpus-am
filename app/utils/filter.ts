@@ -1,3 +1,12 @@
+export function toDateString(val: string) {
+  if (val) {
+    const { $dayjs } = useNuxtApp();
+    return $dayjs(val).format("YYYY-MM-DD");
+  } else {
+    return "-";
+  }
+}
+
 export function toMoney(val: number) {
   if (val) {
     const x = val;
@@ -45,6 +54,36 @@ export function genderLabel(val: string) {
       break;
     case "f":
       text = "Perempuan";
+      break;
+    default:
+      text = "";
+  }
+  return text;
+}
+
+export function borrowState(val: number | undefined) {
+  let text = "";
+  switch (val) {
+    case 1:
+      text = "Keluar";
+      break;
+    case 2:
+      text = "Kembali";
+      break;
+    default:
+      text = "Unknown";
+  }
+  return text;
+}
+
+export function borrowStateColor(val: number | undefined) {
+  let text = "";
+  switch (val) {
+    case 1:
+      text = "red-accent-4";
+      break;
+    case 2:
+      text = "green-accent-4";
       break;
     default:
       text = "";

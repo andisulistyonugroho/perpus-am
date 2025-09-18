@@ -20,7 +20,7 @@ hook("drawer:toggle", () => {
         />
       </div>
       <v-list>
-        <v-list-item to="/transactions">
+        <v-list-item to="/borrow">
           <template #prepend>
             <v-icon icon="i-mdi-view-list" />
           </template>
