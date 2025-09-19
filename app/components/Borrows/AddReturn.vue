@@ -3,6 +3,8 @@ const { $dayjs } = useNuxtApp();
 const dialog = defineModel<boolean>("dialog");
 const item = defineModel<Borrow>("item");
 
+const { returnBook, getBorrow } = useBorrowStore();
+
 const payload = ref<ReturnBorrow>({
   id: item.value ? item.value.id : 0,
   borrow_status: 2,
@@ -11,8 +13,23 @@ const payload = ref<ReturnBorrow>({
 });
 const checkbox = ref(false);
 const loading = ref(false);
+const form = ref();
 
-const doSave = async () => {};
+const doSave = async () => {
+  try {
+    loading.value = true;
+    const validate = await form.value.validate();
+    if (!validate.valid) return;
+
+    await returnBook(payload.value);
+    await getBorrow(1);
+    loading.value = false;
+    dialog.value = false;
+  } catch (error) {
+    loading.value = false;
+    alert(error);
+  }
+};
 </script>
 <template>
   <v-dialog v-model="dialog" persistent width="600">

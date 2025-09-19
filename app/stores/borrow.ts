@@ -21,7 +21,7 @@ export const useBorrowStore = defineStore("borrow", () => {
   const returnBook = async (input: ReturnBorrow) => {
     try {
       await $api.patch(`/borrows/${input.id}`, {
-        return_date: input.returned_date,
+        returned_date: input.returned_date,
         borrow_status: 2,
         modified: $dayjs().subtract(7, "hour").format("YYYY-MM-DD HH:mm:ss"),
       });
