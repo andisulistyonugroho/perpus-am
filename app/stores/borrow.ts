@@ -46,7 +46,7 @@ export const useBorrowStore = defineStore("borrow", () => {
         params: {
           filter: {
             where: whereF,
-            include: ["user", "book", "profile"],
+            include: ["user", { book: "author" }, "profile"],
             order: "modified DESC",
           },
         },

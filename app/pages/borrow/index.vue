@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 definePageMeta({
   layout: "default",
   middleware: ["auth"],
@@ -12,7 +11,7 @@ const { borrows } = storeToRefs(useBorrowStore());
 
 const headers = [
   { title: "Tgl Keluar", key: "borrow_date" },
-  { title: "Buku", key: "book.title" },
+  { title: "Judul", key: "book.title" },
   { title: "Peminjam", key: "profile.fullname" },
   { title: "Status", key: "borrow_status" },
   { title: "Tgl Kembali", key: "returned_date" },
@@ -90,6 +89,10 @@ await getBorrow(null);
               :items="borrows"
               :search="search"
             >
+              <template #[`item.book.title`]="{ item }">
+                {{ item.book.title }} &bull; {{ item.book.year }} &bull;
+                {{ item.book.author.name }}
+              </template>
               <template #[`item.borrow_date`]="{ item }">
                 {{ toDateString(item.borrow_date) }}
               </template>
@@ -124,6 +127,9 @@ await getBorrow(null);
         </v-col>
       </v-row>
     </v-container>
-    <LazyBorrowsAddBorrow v-model:dialog="transactionDialog" />
+    <LazyBorrowsAddBorrow
+      v-if="transactionDialog"
+      v-model:dialog="transactionDialog"
+    />
   </div>
 </template>
