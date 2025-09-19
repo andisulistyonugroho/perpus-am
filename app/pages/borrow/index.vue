@@ -20,6 +20,8 @@ const headers = [
 const tab = ref(1);
 const search = ref("");
 const transactionDialog = ref(false);
+const returnedDialog = ref(false);
+const selectedItem = ref<Borrow | null>(null);
 
 watch(tab, async (newV, _) => {
   if (newV === 1) {
@@ -30,6 +32,11 @@ watch(tab, async (newV, _) => {
     await getBorrow(null);
   }
 });
+
+const openReturnDialog = (item: Borrow) => {
+  selectedItem.value = item;
+  returnedDialog.value = true;
+};
 
 await getBorrow(1);
 </script>
@@ -116,6 +123,7 @@ await getBorrow(1);
                     <v-list-item
                       v-if="item.borrow_status === 1"
                       density="compact"
+                      @click="openReturnDialog(item)"
                     >
                       <v-list-item-title>Pengembalian</v-list-item-title>
                     </v-list-item>
@@ -130,6 +138,11 @@ await getBorrow(1);
     <LazyBorrowsAddBorrow
       v-if="transactionDialog"
       v-model:dialog="transactionDialog"
+    />
+    <LazyBorrowsAddReturn
+      v-if="returnedDialog"
+      v-model:dialog="returnedDialog"
+      v-model:item="selectedItem"
     />
   </div>
 </template>

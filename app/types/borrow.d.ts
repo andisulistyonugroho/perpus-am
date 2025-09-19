@@ -20,5 +20,5 @@ interface Borrow {
   created: string;
   modified: string;
   book: Book;
-  borrower: Member;
+  profile: Member;
 }
