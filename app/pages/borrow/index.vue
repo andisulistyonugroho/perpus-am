@@ -23,15 +23,15 @@ const transactionDialog = ref(false);
 
 watch(tab, async (newV, _) => {
   if (newV === 1) {
-    await getBorrow(null);
-  } else if (newV === 2) {
     await getBorrow(1);
-  } else if (newV === 3) {
+  } else if (newV === 2) {
     await getBorrow(2);
+  } else if (newV === 3) {
+    await getBorrow(null);
   }
 });
 
-await getBorrow(null);
+await getBorrow(1);
 </script>
 
 <template>
@@ -64,9 +64,9 @@ await getBorrow(null);
         <v-col cols="12">
           <v-card>
             <v-tabs v-model="tab" slider-color="blue">
-              <v-tab :value="1" class="text-none">Semua</v-tab>
-              <v-tab :value="2" class="text-none">Dipinjam</v-tab>
-              <v-tab :value="3" class="text-none">Kembali</v-tab>
+              <v-tab :value="1" class="text-none">Dipinjam</v-tab>
+              <v-tab :value="2" class="text-none">Kembali</v-tab>
+              <v-tab :value="3" class="text-none">Semua</v-tab>
             </v-tabs>
             <v-card-text>
               <div>
