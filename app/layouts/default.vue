@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { hook } = useNuxtApp();
-const drawer = ref(true);
+const drawer = ref(false);
 
 hook("drawer:toggle", () => {
   drawer.value = !drawer.value;

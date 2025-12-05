@@ -17,7 +17,7 @@ const loading = ref(false);
 const profile = ref<Member | undefined>();
 
 const payload = ref<AddBorrow>({
-  book_id: 0,
+  book_id: [],
   userId: 0,
   borrower_profile_id: 0,
   borrow_date: $dayjs().format("YYYY-MM-DD"),
@@ -57,34 +57,6 @@ await getMember();
       <v-card-text class="px-3">
         <v-form ref="form" class="pa-0">
           <v-autocomplete
-            v-model="payload.book_id"
-            label="Judul Buku*"
-            :items="books"
-            item-title="title"
-            item-value="id"
-            :rules="[(v) => !!v || 'Harus diisi']"
-            clearable
-          >
-            <template #item="{ props, item }">
-              <v-list-item
-                v-bind="props"
-                :title="item.title"
-                :subtitle="`${item.raw.author.name}- ${item.raw.genre.title} - ${item.raw.year}`"
-              />
-            </template>
-            <template #append-item>
-              <v-divider class="my-2" />
-              <v-btn
-                block
-                variant="text"
-                prepend-icon="i-mdi-plus"
-                class="text-none"
-                @click="addBookDialog = true"
-                >Tambah Buku</v-btn
-              >
-            </template>
-          </v-autocomplete>
-          <v-autocomplete
             v-model="profile"
             label="Nama Anggota*"
             :items="members"
@@ -102,6 +74,36 @@ await getMember();
                 class="text-none"
                 @click="addMemberDialog = true"
                 >Tambah Anggota</v-btn
+              >
+            </template>
+          </v-autocomplete>
+          <v-autocomplete
+            v-model="payload.book_id"
+            label="Judul Buku*"
+            :items="books"
+            item-title="title"
+            item-value="id"
+            :rules="[(v) => !!v || 'Harus diisi']"
+            clearable
+            multiple
+            hide-selected
+          >
+            <template #item="{ props, item }">
+              <v-list-item
+                v-bind="props"
+                :title="item.title"
+                :subtitle="`${item.raw.author.name}- ${item.raw.genre.title} - ${item.raw.year}`"
+              />
+            </template>
+            <template #append-item>
+              <v-divider class="my-2" />
+              <v-btn
+                block
+                variant="text"
+                prepend-icon="i-mdi-plus"
+                class="text-none"
+                @click="addBookDialog = true"
+                >Tambah Buku</v-btn
               >
             </template>
           </v-autocomplete>

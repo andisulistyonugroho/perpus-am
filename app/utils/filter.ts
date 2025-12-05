@@ -35,7 +35,7 @@ export function bookStateColor(val: number | undefined) {
   let text = "";
   switch (val) {
     case 1:
-      text = "green-accent-4";
+      text = "green";
       break;
     case 2:
       text = "red-accent-4";

@@ -4,6 +4,7 @@ interface AddBook {
   genre_id: number;
   num_of_page: number;
   year: number;
+  book_amount: number;
 }
 
 interface Book {
@@ -13,8 +14,10 @@ interface Book {
   genre_id: number;
   num_of_page: number;
   year: number;
-  state: number;
-  borrowed: number;
+  book_amount: number;
+  current_available_amount: number;
+  current_borrowed_amount: number;
+  total_borrowed: number;
   created: string;
   is_active: boolean;
   modified: string;
@@ -29,6 +32,7 @@ interface UpdateBook {
   genre_id: number;
   num_of_page: number;
   year: number;
+  book_amount: number;
 }
 
 interface ChangeBookStatus {

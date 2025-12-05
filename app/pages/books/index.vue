@@ -9,18 +9,11 @@ const { getBooks, getBooksByState } = useBookStore();
 const { books } = storeToRefs(useBookStore());
 
 const tab = ref(1);
-const headers = ref([
-  { title: "Judul", key: "title" },
-  { title: "Penulis", key: "author.name" },
-  { title: "Genre", key: "genre.title" },
-  { title: "Tahun", key: "year" },
-  { title: "Hal", key: "num_of_page" },
-  { title: "Jlh Pinjam", key: "borrowed" },
-  { title: "", key: "action", sortable: false },
-]);
 const addBookDialog = ref(false);
 const editedData = ref<Book | undefined>();
 const search = ref("");
+const bookMenu = ref(false);
+const bookMenuData = ref<Book>();
 
 watch(tab, async (newV, _) => {
   if (newV === 1) {
@@ -35,6 +28,11 @@ watch(tab, async (newV, _) => {
 const editBook = (data: Book) => {
   editedData.value = data;
   addBookDialog.value = true;
+};
+
+const openBookMenu = (data: Book) => {
+  bookMenu.value = true;
+  bookMenuData.value = data;
 };
 
 await getBooks();
@@ -89,61 +87,28 @@ await getBooks();
             </v-card-text>
           </v-card>
           <v-card class="mt-4">
-            <template v-if="$vuetify.display.mobile">
-              <div
-                v-for="row in books"
-                :key="row.id"
-                class="mt-3 px-5 py-2 border-b-thin"
-              >
-                <div>{{ row.title }}</div>
-                <div class="text-body-2 text-grey-darken-1">
-                  {{ row.author.name }} &bull; {{ row.num_of_page }} halaman
-                  &bull; {{ row.genre.title }} &bull; dipinjam ... kali
-                </div>
-              </div>
-            </template>
-            <v-data-table-virtual
-              v-else
-              :headers="headers"
-              :items="books"
-              :search="search"
+            <div
+              v-for="row in books"
+              :key="row.id"
+              class="mt-3 px-5 py-2 border-b-thin"
+              @click="openBookMenu(row)"
             >
-              <template #[`item.title`]="{ item }">
-                {{ item.title }}
-                <v-chip size="small" :color="bookStateColor(item.state)">
-                  {{ bookState(item.state) }}</v-chip
-                >
-              </template>
-              <template #[`item.action`]="{ item }">
-                <v-menu>
-                  <template #activator="{ props }">
-                    <v-icon icon="i-mdi-dots-horizontal" v-bind="props" />
-                  </template>
-                  <v-list density="compact">
-                    <v-list-item density="compact" @click="editBook(item)">
-                      <v-list-item-title>Edit</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                      v-if="item.state === 1"
-                      density="compact"
-                      @click="editBook(item)"
-                    >
-                      <v-list-item-title>Pinjam</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item
-                      v-if="item.state === 2"
-                      density="compact"
-                      @click="editBook(item)"
-                    >
-                      <v-list-item-title>Kembali</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </template>
-            </v-data-table-virtual>
+              <div>{{ row.title }}</div>
+              <div class="text-body-2 text-grey-darken-1">
+                {{ row.author.name }} &bull;
+                {{ row.current_available_amount }} tersedia &bull;
+                {{ row.current_borrowed_amount }} keluar
+              </div>
+            </div>
           </v-card>
         </v-col>
       </v-row>
+      <LazyBooksMenu
+        v-if="bookMenuData"
+        v-model:bookmenu="bookMenu"
+        :detail="bookMenuData"
+        @edit="editBook"
+      />
     </v-container>
     <LazyBooksAddBook
       v-model:dialog="addBookDialog"

@@ -30,6 +30,7 @@ export const useBookStore = defineStore("book", () => {
         genre_id: payload.genre_id,
         num_of_page: payload.num_of_page,
         year: payload.year,
+        book_amount: payload.book_amount,
       });
       return Promise.resolve();
     } catch (error) {
@@ -45,6 +46,7 @@ export const useBookStore = defineStore("book", () => {
         genre_id: payload.genre_id,
         num_of_page: payload.num_of_page,
         year: payload.year,
+        book_amount: payload.book_amount,
         modified: $dayjs().subtract(7, "hour").format("YYYY-MM-DD HH:mm:ss"),
       });
       return Promise.resolve();

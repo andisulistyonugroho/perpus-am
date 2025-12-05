@@ -18,6 +18,7 @@ const payload = ref<AddBook>({
   genre_id: 0,
   num_of_page: 0,
   year: 2025,
+  book_amount: 1,
 });
 const edited = defineModel<Book | undefined>("edited");
 
@@ -29,6 +30,7 @@ watch(edited, (newV, _) => {
       genre_id: newV.genre_id,
       num_of_page: newV.num_of_page,
       year: newV.year,
+      book_amount: newV.book_amount,
     };
   }
 });
@@ -87,10 +89,10 @@ await getAuthors();
 await getGenres();
 </script>
 <template>
-  <v-dialog v-model="dialog" width="600" persistent>
+  <v-dialog v-model="dialog" fullscreen persistent scrollable>
     <v-card>
-      <v-card-title>{{ edited ? "Edit" : "Tambah" }} Buku</v-card-title>
-      <v-divider class="mt-2" />
+      <v-toolbar :title="`${edited ? 'Edit' : 'Tambah'} Data Buku`" />
+      <!-- <v-divider class="mt-2" /> -->
       <v-card-text class="px-3">
         <v-form ref="form" class="pa-0">
           <v-container fluid class="pa-0 ma-0">
@@ -133,7 +135,6 @@ await getGenres();
                   item-title="title"
                   item-value="id"
                   :rules="[(v) => !!v || 'Harus diisi']"
-                  class="mr-1"
                 >
                   <template #append-item>
                     <v-divider class="my-2" />
@@ -153,6 +154,7 @@ await getGenres();
                   v-model="payload.year"
                   label="Tahun Terbit*"
                   type="number"
+                  class="mr-1"
                   :rules="[(v) => !!v || 'Harus diisi']"
                 />
               </v-col>
@@ -160,6 +162,14 @@ await getGenres();
                 <v-text-field
                   v-model="payload.num_of_page"
                   label="Jumlah Halaman*"
+                  type="number"
+                  :rules="[(v) => !!v || 'Harus diisi']"
+                />
+              </v-col>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="payload.book_amount"
+                  label="Jumlah Buku*"
                   type="number"
                   :rules="[(v) => !!v || 'Harus diisi']"
                 />
