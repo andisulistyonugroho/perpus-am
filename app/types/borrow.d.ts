@@ -3,6 +3,7 @@ interface AddBorrow {
   book_id: number[];
   borrower_profile_id: number;
   borrow_date: string;
+  returned_date: string;
 }
 
 interface ReturnBorrow {

@@ -43,24 +43,14 @@ await getBooks();
       <v-btn icon="i-mdi-menu" @click="callHook('drawer:toggle')" />
       <v-app-bar-title>Buku</v-app-bar-title>
       <v-btn
-        id="menu-activator"
         class="text-none mr-4"
         variant="tonal"
-        prepend-icon="i-mdi-lightning-bolt"
+        prepend-icon="i-mdi-book-plus-outline"
         color="primary"
+        @click="addBookDialog = true"
       >
-        Action
+        Tambah
       </v-btn>
-      <v-menu activator="#menu-activator">
-        <v-list density="compact">
-          <v-list-item density="compact" @click="addBookDialog = true">
-            <v-list-item-title>Tambah</v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>Pinjam</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
     </v-app-bar>
     <v-container>
       <v-row no-gutters>
@@ -68,8 +58,6 @@ await getBooks();
           <v-card>
             <v-tabs v-model="tab" slider-color="blue">
               <v-tab :value="1" class="text-none">Semua</v-tab>
-              <v-tab :value="2" class="text-none">Tersedia</v-tab>
-              <v-tab :value="3" class="text-none">Dipinjam</v-tab>
             </v-tabs>
             <v-card-text>
               <div>

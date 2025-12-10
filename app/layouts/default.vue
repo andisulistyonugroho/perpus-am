@@ -24,7 +24,7 @@ hook("drawer:toggle", () => {
           <template #prepend>
             <v-icon icon="i-mdi-view-list" />
           </template>
-          <v-list-item-title>Transaksi</v-list-item-title>
+          <v-list-item-title>Pinjam</v-list-item-title>
         </v-list-item>
         <v-list-item to="/books">
           <template #prepend>
@@ -40,7 +40,7 @@ hook("drawer:toggle", () => {
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-main class="bg-grey-lighten-3">
+    <v-main>
       <slot />
     </v-main>
   </v-app>

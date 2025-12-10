@@ -91,7 +91,7 @@ await getGenres();
 <template>
   <v-dialog v-model="dialog" fullscreen persistent scrollable>
     <v-card>
-      <v-toolbar :title="`${edited ? 'Edit' : 'Tambah'} Data Buku`" />
+      <v-toolbar :title="`${edited ? 'Edit' : 'Tambah'} Buku`" />
       <!-- <v-divider class="mt-2" /> -->
       <v-card-text class="px-3">
         <v-form ref="form" class="pa-0">
