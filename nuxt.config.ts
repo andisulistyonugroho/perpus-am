@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-const theVersion = "0.01";
+const theVersion = "0.02";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
@@ -302,6 +302,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
     "@vite-pwa/nuxt",
+    "@nuxtjs/device",
   ],
 
   pwa: {
@@ -321,7 +322,7 @@ export default defineNuxtConfig({
           purpose: ["any"],
         },
       ],
-      id: `tatra/v${theVersion}`,
+      id: `maktabahadmin/v${theVersion}`,
       start_url: "/?source=pwa",
       display: "standalone",
       scope: "/",
