@@ -8,6 +8,7 @@ hook("page:settitle", (title) => {
 </script>
 <template>
   <v-app>
+    <NuxtPwaManifest />
     <v-app-bar flat class="border-b-thin">
       <v-btn icon="i-mdi-arrow-left" @click="$router.back()" />
       <v-app-bar-title>{{ pageTitle }}</v-app-bar-title>

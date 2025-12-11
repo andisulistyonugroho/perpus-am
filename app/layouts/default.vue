@@ -8,6 +8,7 @@ hook("drawer:toggle", () => {
 </script>
 <template>
   <v-app>
+    <NuxtPwaManifest />
     <v-navigation-drawer
       v-model="drawer"
       :location="$vuetify.display.mobile ? 'bottom' : undefined"
