@@ -22,10 +22,10 @@ export const useBorrowStore = defineStore("borrow", () => {
 
   const returnBook = async (input: ReturnBorrow) => {
     try {
-      await $api.patch(`/borrows/${input.id}`, {
+      await $api.post(`/borrows/returnBook`, {
+        id: input.id,
         returned_date: input.returned_date,
-        borrow_status: 2,
-        modified: $dayjs().subtract(7, "hour").format("YYYY-MM-DD HH:mm:ss"),
+        notes: input.notes,
       });
       return Promise.resolve();
     } catch (error) {
@@ -48,7 +48,7 @@ export const useBorrowStore = defineStore("borrow", () => {
         params: {
           filter: {
             where: whereF,
-            include: ["user", { book: "author" }, "profile"],
+            include: ["profile", { borrowItems: { book: "author" } }],
             order: "modified DESC",
           },
         },

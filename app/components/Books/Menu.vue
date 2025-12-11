@@ -7,7 +7,7 @@ const bookmenu = defineModel<boolean>("bookmenu");
 </script>
 <template>
   <v-bottom-sheet v-model="bookmenu">
-    <v-sheet v-if="props.detail" class="pa-4 border-b-thin">
+    <v-sheet v-if="props.detail" class="pa-4 border-b-thin" rounded="t-lg">
       <div class="text-h5">{{ props.detail.title }}</div>
       <div>
         {{ props.detail.author.name }},

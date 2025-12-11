@@ -8,9 +8,8 @@ interface AddBorrow {
 
 interface ReturnBorrow {
   id: number;
-  borrow_status: number;
   returned_date: string;
-  modified: string;
+  notes: string;
 }
 
 interface Borrow {
