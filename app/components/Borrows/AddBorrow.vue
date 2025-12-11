@@ -152,6 +152,6 @@ await getMember();
       >
     </v-card-actions>
   </v-card>
-  <LazyBooksAddBook v-model:dialog="addBookDialog" />
-  <LazyMembersAddMember v-model:dialog="addMemberDialog" />
+  <!-- <LazyBooksAddBook v-model:dialog="addBookDialog" /> -->
+  <!-- <LazyMembersAddMember v-model:dialog="addMemberDialog" /> -->
 </template>

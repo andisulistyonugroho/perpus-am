@@ -79,6 +79,7 @@ export const useBookStore = defineStore("book", () => {
       books.value = data;
       return Promise.resolve();
     } catch (error) {
+      alert(error);
       return Promise.reject(error);
     }
   };
