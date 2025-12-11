@@ -5,7 +5,8 @@ const { getBooksByState } = useBookStore();
 const { books } = storeToRefs(useBookStore());
 const { getMember } = useMemberStore();
 const { members } = storeToRefs(useMemberStore());
-const { borrowBook, getBorrow } = useBorrowStore();
+const { borrowBook } = useBorrowStore();
+const { user } = useUserStore();
 
 const checkbox = ref(false);
 const addBookDialog = ref(false);
@@ -16,7 +17,7 @@ const profile = ref<Member | undefined>();
 
 const payload = ref<AddBorrow>({
   book_id: [],
-  userId: 0,
+  userId: user.userId,
   borrower_profile_id: 0,
   borrow_date: $dayjs().format("YYYY-MM-DD"),
   returned_date: $dayjs().add(7, "days").format("YYYY-MM-DD"),
@@ -31,11 +32,11 @@ const doSave = async () => {
     payload.value.borrower_profile_id = profile.value.id;
     payload.value.userId = profile.value.userId;
 
-    await borrowBook(payload.value);
-    await getBorrow(null);
+    const data = await borrowBook(payload.value);
 
     form.value.reset();
     loading.value = false;
+    navigateTo(`/borrow/detail?id=${data.id}`);
   } catch (error) {
     loading.value = false;
     alert(error);
@@ -136,15 +137,15 @@ await getMember();
       <v-spacer />
       <v-btn
         prepend-icon="i-mdi-close"
-        color="grey-lighten-3"
-        variant="flat"
+        color="secondary"
+        variant="tonal"
         :loading="loading"
         >Batal</v-btn
       >
       <v-btn
         prepend-icon="i-mdi-content-save"
         variant="flat"
-        color="primary"
+        color="secondary"
         :loading="loading"
         @click="doSave()"
         >Simpan</v-btn

@@ -57,13 +57,20 @@ export const useBookStore = defineStore("book", () => {
 
   const getBooksByState = async (state: number) => {
     try {
+      const whereFAvailable = {
+        is_active: true,
+        current_available_amount: { gt: 0 },
+      };
+
+      const whereFNotAvailable = {
+        is_active: true,
+        current_available_amount: 0,
+      };
+
       const { data } = await $api.get<Book[]>("/books", {
         params: {
           filter: {
-            where: {
-              is_active: true,
-              state: state,
-            },
+            where: state === 1 ? whereFAvailable : whereFNotAvailable,
             include: ["author", "genre"],
             order: "title",
           },

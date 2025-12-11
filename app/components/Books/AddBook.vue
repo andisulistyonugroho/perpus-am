@@ -189,8 +189,7 @@ await getGenres();
         <v-btn
           prepend-icon="i-mdi-close"
           variant="tonal"
-          color="error"
-          class="text-none"
+          color="secondary"
           :loading="loading"
           @click="
             form.reset();
@@ -201,9 +200,8 @@ await getGenres();
         >
         <v-btn
           prepend-icon="i-mdi-content-save"
-          variant="tonal"
-          color="primary"
-          class="text-none"
+          variant="flat"
+          color="secondary"
           :loading="loading"
           @click="doSave()"
           >Simpan</v-btn

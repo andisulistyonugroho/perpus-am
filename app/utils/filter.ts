@@ -7,6 +7,15 @@ export function toDateString(val: string) {
   }
 }
 
+export function toDMY(val: string) {
+  if (val) {
+    const { $dayjs } = useNuxtApp();
+    return $dayjs(val).format("ddd, DD/MM/YYYY");
+  } else {
+    return "-";
+  }
+}
+
 export function toMoney(val: number) {
   if (val) {
     const x = val;

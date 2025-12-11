@@ -1,10 +1,9 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "default",
+  layout: "firstlayernohead",
   middleware: ["auth"],
 });
 
-const { callHook } = useNuxtApp();
 const { getBooks, getBooksByState } = useBookStore();
 const { books } = storeToRefs(useBookStore());
 
@@ -40,13 +39,12 @@ await getBooks();
 <template>
   <div>
     <v-app-bar flat class="border-b-thin">
-      <v-btn icon="i-mdi-menu" @click="callHook('drawer:toggle')" />
       <v-app-bar-title>Buku</v-app-bar-title>
       <v-btn
         class="text-none mr-4"
-        variant="tonal"
+        variant="flat"
         prepend-icon="i-mdi-book-plus-outline"
-        color="primary"
+        color="secondary"
         @click="addBookDialog = true"
       >
         Tambah
