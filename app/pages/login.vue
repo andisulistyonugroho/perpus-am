@@ -38,6 +38,7 @@ const doInstall = () => {
 
 <template>
   <v-app>
+    <NuxtPwaManifest />
     <v-container class="fill-height">
       <v-row>
         <v-col
